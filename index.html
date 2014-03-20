@@ -1,44 +1,54 @@
+Text:<br/> <textarea id="text" rows="7" cols="100">In a little district west of Washington Square the streets have run crazy and broken themselves into small strips called 'places'. These 'places' make strange angles and curves. One Street crosses itself a time or two. An artist once discovered a valuable possibility in this street. Suppose a collector with a bill for paints, paper and canvas should, in traversing this route, suddenly meet himself coming back, without a cent having been paid on account!</textarea>
+<br/>
+Secret: <input id="secret" style="width: 300px" type="text" value="Washington paints himself"/> <input type="button" value="Create" onclick="create()"/>
+<br/>
+<a href="https://github.com/trungdq88/ASCII-stereogram-generator" target="_blank">Github</a>
+<hr/>
+<h3 style="text-align:center">Result</h3>
+<pre id="result" style="text-align:center"></pre>
 <script>
-var arr = "In a little district west of Washington Square the streets have run crazy and broken themselves into small strips called 'places'. These 'places' make strange angles and curves. One Street crosses itself a time or two. An artist once discovered a valuable possibility in this street. Suppose a collector with a bill for paints, paper and canvas should, in traversing this route, suddenly meet himself coming back, without a cent having been paid on account!".split(' ');
-var secret = "Washington paints himself".split(' ');
-var i = -1;
-var MAX_WIDTH = 25;
-var lines = [[]];
-var _l = 0;
+function create() {
+  var arr = document.getElementById("text").value.split(' ');
+  var secret = document.getElementById("secret").value.split(' ');
+  var i = -1;
+  var MAX_WIDTH = 25;
+  var lines = [[]];
+  var _l = 0;
 
-var result = '';
+  var result = '';
 
-while (i++ < arr.length - 1) {
-    if ((_l + arr[i].length) < MAX_WIDTH) {
-        if (secret.indexOf(arr[i]) > -1) {arr[i] = (_l?'  ':' ') + arr[i]}
-        lines[lines.length - 1].push(arr[i]);
-        _l += arr[i].length + 1;
-        
-    } else {
-        _l = 0;
-        i--;
-        lines.push([]);
+  while (i++ < arr.length - 1) {
+      if ((_l + arr[i].length) < MAX_WIDTH) {
+          if (secret.indexOf(arr[i]) > -1) {arr[i] = (_l?'  ':' ') + arr[i]}
+          lines[lines.length - 1].push(arr[i]);
+          _l += arr[i].length + 1;
+          
+      } else {
+          _l = 0;
+          i--;
+          lines.push([]);
+      }
+  }
+
+  for (var i = 0; i < lines.length - 1; putText(lines[i++].join(chars))) {
+    // Align text
+    var chars = ' ';
+    while (lines[i].join(chars + ' ').length < MAX_WIDTH) {
+      chars += ' ';
     }
-}
-
-for (var i = 0; i < lines.length - 1; putText(lines[i++].join(chars))) {
-  // Align text
-  var chars = ' ';
-  while (lines[i].join(chars + ' ').length < MAX_WIDTH) {
-    chars += ' ';
   }
-}
-putText(lines[i].join(' ') + ' ');
-function putText(line) {
-  while (line.length < MAX_WIDTH) {
-    line = line.replace(' ', '  ');
+  putText(lines[i].join(' ') + ' ');
+  function putText(line) {
+    while (line.length < MAX_WIDTH) {
+      line = line.replace(' ', '  ');
+    }
+    // Make the illusion
+    result += line;
+    for (var val in secret) {
+      line = line.split('  '+secret[val]).join(' ' + secret[val] + ' ');
+    }
+    result += ('   ' + line) + '\n';
   }
-  // Make the illusion
-  result += line;
-  for (var val in secret) {
-    line = line.split('  '+secret[val]).join(' ' + secret[val] + ' ');
-  }
-  result += ('   ' + line) + '\n';
+  document.getElementById('result').innerText = result;
 }
-console.log(result);
 </script>
