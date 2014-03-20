@@ -1,0 +1,40 @@
+<script>
+var s = "According to the police inspector, Edward John Billings, there are too many individuals too close to the case to make an arrest. I asked Mary Smith to comment on the case, but she declined to comment, because she is soon to be married to Howard D. Fredericks, the victim's uncle. Charles Wilson, the victim's brother, stated that the chaos was responsible for at least five suicide attempts last week alone.";
+var arr = s.split(' ');
+var i = -1;
+var length = 0;
+var MAX_WIDTH = 22;
+var lines = [[]];
+var _l = 0;
+while (i++ < arr.length - 1) {
+    if ((_l + arr[i].length) < MAX_WIDTH) {
+        _l += arr[i].length + 1;
+        lines[lines.length - 1].push(arr[i]);
+    } else {
+        _l = 0;
+        i--;
+        lines.push([]);
+    }
+}
+console.log(lines);
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
