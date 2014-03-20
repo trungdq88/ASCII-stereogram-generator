@@ -1,40 +1,44 @@
 <script>
-var s = "According to the police inspector, Edward John Billings, there are too many individuals too close to the case to make an arrest. I asked Mary Smith to comment on the case, but she declined to comment, because she is soon to be married to Howard D. Fredericks, the victim's uncle. Charles Wilson, the victim's brother, stated that the chaos was responsible for at least five suicide attempts last week alone.";
-var arr = s.split(' ');
+var arr = "In a little district west of Washington Square the streets have run crazy and broken themselves into small strips called 'places'. These 'places' make strange angles and curves. One Street crosses itself a time or two. An artist once discovered a valuable possibility in this street. Suppose a collector with a bill for paints, paper and canvas should, in traversing this route, suddenly meet himself coming back, without a cent having been paid on account!".split(' ');
+var secret = "Washington paints himself".split(' ');
 var i = -1;
-var length = 0;
-var MAX_WIDTH = 22;
+var MAX_WIDTH = 25;
 var lines = [[]];
 var _l = 0;
+
+var result = '';
+
 while (i++ < arr.length - 1) {
     if ((_l + arr[i].length) < MAX_WIDTH) {
-        _l += arr[i].length + 1;
+        if (secret.indexOf(arr[i]) > -1) {arr[i] = (_l?'  ':' ') + arr[i]}
         lines[lines.length - 1].push(arr[i]);
+        _l += arr[i].length + 1;
+        
     } else {
         _l = 0;
         i--;
         lines.push([]);
     }
 }
-console.log(lines);
 
+for (var i = 0; i < lines.length - 1; putText(lines[i++].join(chars))) {
+  // Align text
+  var chars = ' ';
+  while (lines[i].join(chars + ' ').length < MAX_WIDTH) {
+    chars += ' ';
+  }
+}
+putText(lines[i].join(' ') + ' ');
+function putText(line) {
+  while (line.length < MAX_WIDTH) {
+    line = line.replace(' ', '  ');
+  }
+  // Make the illusion
+  result += line;
+  for (var val in secret) {
+    line = line.split('  '+secret[val]).join(' ' + secret[val] + ' ');
+  }
+  result += ('   ' + line) + '\n';
+}
+console.log(result);
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
